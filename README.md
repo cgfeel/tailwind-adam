@@ -2,9 +2,11 @@
 
 来自油管 `adma`，不同的是通过 `NextJS` 来做练习，所以数据请求、组件封装、配置文件略微会不一样。
 
-除此之外还记录 `NextJS` 的一些记录：
+除此之外还记录 `NextJS` 的一些记录（暂记录在这个仓库，稍后整理 `NextJS 15` 时会重新归类）：
 
 ### `default.tsx` 并行路由回退展示
+
+目录：https://github.com/cgfeel/tailwind-adam/tree/main/src/app/adam
 
 当设置平行路由的时候，如下：
 
@@ -52,3 +54,68 @@
 
 -   返回一个 `null`，以便硬导航的时候展示原本的页面
 -   详细见演示 [[查看](https://github.com/cgfeel/next.v2/tree/master/routing-file/src/app/photo)]
+
+### `Fetch` 默认不再缓存，导致的细微改变，以及 `template` 和 `layout`
+
+目录：https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time
+
+以下总结建议启动项目直接查看演示：
+
+**`SSR` 下的动态路由：**
+
+-   动态路由以 `[]` 包裹，路由下的 `fetch` 将实时更新
+
+**`SSR` 下的动态方法：**
+
+-   `RSC` 用到了 `cookies` 和 `headers` 等动态方法，路由下的 `fetch` 将实时更新
+
+**`SSR` 下的没有动态路由也没有动态方法等同于 `SSG`：**
+
+-   路由下的 `fetch` 将在构建时缓存数据，除非定时或手动更新
+
+**手动刷新已缓存的静态 `SSR`：**
+
+-   非动态路由、也不包含动态方法，通过 `revalidatePath` 手动刷新已缓存的`SSR`
+
+**`ISR` 随时间自动更新：**
+
+-   通过导出 `revalidate` 设定时间，自动刷新缓存
+
+> `dev` 环境下 `ssr` 每次都会刷新数据
+
+由于 `NextJS v15` 更新了 `fetch` 缓存机制，那么 `revalidateTag` 还有必要存在吗？
+
+-   有必要，虽然 `fetch` 不再默认缓存，但是可以手动记录缓存
+
+```tsx
+import { unstable_cache } from "next/cache";
+import { db, posts } from "@/lib/db";
+
+const getPosts = unstable_cache(
+    async () => {
+        return await db.select().from(posts);
+    },
+    ["posts"],
+    { revalidate: 3600, tags: ["posts"] }
+);
+
+export default async function Page() {
+    const allPosts = await getPosts();
+
+    return (
+        <ul>
+            {allPosts.map((post) => (
+                <li key={post.id}>{post.title}</li>
+            ))}
+        </ul>
+    );
+}
+```
+
+**layout.tsx：**
+
+-   布局下 `client component` 的 `hook` 状态将会被保存，不随导航切换清空
+
+**template.tsx：**
+
+-   template.tsx：布局下的 `client component` 的 `hook` 状态随导航切换清空还原初始状态
