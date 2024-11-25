@@ -55,7 +55,7 @@
 -   返回一个 `null`，以便硬导航的时候展示原本的页面
 -   详细见演示 [[查看](https://github.com/cgfeel/next.v2/tree/master/routing-file/src/app/photo)]
 
-### `Fetch` 默认不再缓存，导致的细微改变，以及 `template` 和 `layout`
+### `Fetch` 默认不再缓存，导致的细微改变
 
 目录：https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time
 
@@ -111,6 +111,10 @@ export default async function Page() {
     );
 }
 ```
+
+### `template` 和 `layout`
+
+目录：https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time
 
 **layout.tsx：**
 
