@@ -7,7 +7,7 @@ export default async function Page() {
             <TimeCom />
             <h3 className="my-4 text-xl font-bold">`SSR` 下的动态路由：</h3>
             <ul className="list-inside list-disc">
-                <li>动态路由以 `[]` 包裹，不再缓存实时反回数据</li>
+                <li>动态路由以 `[]` 包裹，不缓存，实时反回数据</li>
                 <li>
                     [
                     <Link className="text-blue-400" href="/time/no-cache/register">
@@ -28,7 +28,7 @@ export default async function Page() {
             </div>
             <h3 className="my-4 text-xl font-bold">`SSR` 下的动态方法：</h3>
             <ul className="list-inside list-disc">
-                <li>`RSC` 用到了 `cookies` 和 `headers` 等动态方法，不再缓存实时反回数据</li>
+                <li>`RSC` 用到了 `cookies` 和 `headers` 等动态方法，不缓存，实时反回数据</li>
                 <li>
                     [
                     <Link className="text-blue-400" href="/time/cookies">
