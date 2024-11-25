@@ -7,26 +7,47 @@ export default async function Page() {
             <TimeCom />
             <h3 className="my-4 text-xl font-bold">`SSR` 下的动态路由：</h3>
             <ul className="list-inside list-disc">
-                <li>动态路由以 `[]` 包裹，路由下的 `fetch` 将实时更新</li>
+                <li>动态路由以 `[]` 包裹，不再缓存实时反回数据</li>
                 <li>
                     [
                     <Link className="text-blue-400" href="/time/no-cache/register">
                         演示
                     </Link>
-                    ] 说明：切换演示中的导航，查看时间变化
+                    ] 说明：切换演示中的导航，查看 `fetch` 请求的时间变化
+                </li>
+                <li>
+                    [
+                    <Link className="text-blue-400" href="/time/cookies/dynamic/now">
+                        演示
+                    </Link>
+                    ] 说明：打开演示页面，手动刷新，查看时间戳变化
                 </li>
             </ul>
+            <div className="p-4">
+                动态路由可以通过 `generateStaticParams` 将 `SSR` 作为 `SSG`，前提是不能存在动态方法。
+            </div>
             <h3 className="my-4 text-xl font-bold">`SSR` 下的动态方法：</h3>
             <ul className="list-inside list-disc">
-                <li>`RSC` 用到了 `cookies` 和 `headers` 等动态方法，路由下的 `fetch` 将实时更新</li>
+                <li>`RSC` 用到了 `cookies` 和 `headers` 等动态方法，不再缓存实时反回数据</li>
                 <li>
                     [
                     <Link className="text-blue-400" href="/time/cookies">
                         演示
                     </Link>
-                    ] 说明：打开演示页面，手动刷新，查看时间变化
+                    ] 说明：打开演示页面，手动刷新，查看 `fetch` 请求的时间变化
+                </li>
+                <li>
+                    [
+                    <Link className="text-blue-400" href="/time/cookies/method">
+                        演示
+                    </Link>
+                    ] 说明：打开演示页面，手动刷新，查看时间戳变化
                 </li>
             </ul>
+            <div className="p-4">
+                在 `NextJS 15` 之前默认缓存 `fetch` 结果，导致 `SSR` 虽然动态获取数据，但是由于 `fetch`
+                缓存拿到的结果没有变化
+            </div>
             <h3 className="my-4 text-xl font-bold">`SSR` 下的没有动态路由也没有动态方法等同于 `SSG`：</h3>
             <ul className="list-inside list-disc">
                 <li>路由下的 `fetch` 将在构建时缓存数据，除非定时或手动更新</li>
@@ -40,7 +61,7 @@ export default async function Page() {
             </ul>
             <h3 className="my-4 text-xl font-bold">手动刷新已缓存的静态 `SSR`：</h3>
             <ul className="list-inside list-disc">
-                <li>非动态路由、也不包含动态方法，通过 `revalidatePath` 手动刷新已缓存的`SSR`</li>
+                <li>非动态路由、也不包含动态方法，通过 `revalidatePath` 手动刷新已缓存的 `SSR`</li>
                 <li>
                     [
                     <Link className="text-blue-400" href="/time/cache/revalidate">

@@ -64,7 +64,7 @@
 
 > 那么这个时候不由得产生个问题，不用插槽不也可以 `[...cacheAll]` 吗？那么这就又回到根据业务需求来判断的问题了。
 
-### `Fetch` 默认不再缓存，导致的细微改变
+### 缓存细微的改变
 
 目录：https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time
 
@@ -72,11 +72,15 @@
 
 **`SSR` 下的动态路由：**
 
--   动态路由以 `[]` 包裹，路由下的 `fetch` 将实时更新
+-   动态路由以 `[]` 包裹，不再缓存实时反回数据
+
+> 动态路由可以通过 `generateStaticParams` 将 `SSR` 作为 `SSG`，前提是不能存在动态方法。
 
 **`SSR` 下的动态方法：**
 
--   `RSC` 用到了 `cookies` 和 `headers` 等动态方法，路由下的 `fetch` 将实时更新
+-   `RSC` 用到了 `cookies` 和 `headers` 等动态方法，不再缓存实时反回数据
+
+> 在 `NextJS 15` 之前默认缓存 `fetch` 结果，导致 `SSR` 虽然动态获取数据，但是由于 `fetch` 缓存拿到的结果没有变化
 
 **`SSR` 下的没有动态路由也没有动态方法等同于 `SSG`：**
 
