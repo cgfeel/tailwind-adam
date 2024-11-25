@@ -8,7 +8,7 @@ export default function page() {
                 <div className="xl:mx-auto xl:max-w-lg">
                     <Image className="h-10" src="/next.svg" alt="Next.js logo" width={180} height={38} priority />
                     <Image
-                        className="mt-6 rounded-lg shadow-xl sm:mt-8 sm:h-64 sm:w-full sm:object-cover sm:object-center lg:hidden"
+                        className="mt-6 rounded-lg shadow-xl sm:mt-8 sm:h-72 sm:w-full sm:object-cover sm:object-center lg:hidden"
                         src="/woman.jpeg"
                         width={320}
                         height={240}
@@ -16,7 +16,7 @@ export default function page() {
                     />
                     <h1 className="mt-6 text-2xl font-bold leading-tight text-gray-900 sm:mt-8 sm:text-4xl lg:text-3xl xl:text-4xl">
                         You can work from anywhere. <br className="hidden lg:inline" />
-                        <span className="text-indigo-500">Take advantage of it.</span>
+                        <span className="text-brand-blue">Take advantage of it.</span>
                     </h1>
                     <p className="mt-2 text-gray-600 sm:mt-4 sm:text-xl">
                         Workcation helps you find work-friendly rentals in beautiful location so you enjoy some nice
