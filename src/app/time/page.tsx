@@ -16,15 +16,48 @@ export default async function Page() {
                     ] 说明：切换演示中的导航，查看时间变化
                 </li>
             </ul>
-            <h3 className="my-4 text-xl font-bold">`SSR` 下的静态路由：</h3>
+            <h3 className="my-4 text-xl font-bold">`SSR` 下的动态方法：</h3>
             <ul className="list-inside list-disc">
-                <li>静态路由不包含 `[]`，路由下的 `fetch` 将在构建时缓存数据，除非定时或手动更新</li>
+                <li>`RSC` 用到了 `cookies` 和 `headers` 等动态方法，路由下的 `fetch` 将实时更新</li>
+                <li>
+                    [
+                    <Link className="text-blue-400" href="/time/cookies">
+                        演示
+                    </Link>
+                    ] 说明：打开演示页面，手动刷新，查看时间变化
+                </li>
+            </ul>
+            <h3 className="my-4 text-xl font-bold">`SSR` 下的没有动态路由也没有动态方法等同于 `SSG`：</h3>
+            <ul className="list-inside list-disc">
+                <li>路由下的 `fetch` 将在构建时缓存数据，除非定时或手动更新</li>
                 <li>
                     [
                     <Link className="text-blue-400" href="/time/cache/register">
                         演示
                     </Link>
                     ] 说明：切换演示中的导航，时间从缓存中获取，没有变化
+                </li>
+            </ul>
+            <h3 className="my-4 text-xl font-bold">手动刷新已缓存的静态 `SSR`：</h3>
+            <ul className="list-inside list-disc">
+                <li>非动态路由、也不包含动态方法，通过 `revalidatePath` 手动刷新已缓存的`SSR`</li>
+                <li>
+                    [
+                    <Link className="text-blue-400" href="/time/cache/revalidate">
+                        演示
+                    </Link>
+                    ] 说明：打开演示页面，刷新时间不变，点 “refresh” 手动刷新页面
+                </li>
+            </ul>
+            <h3 className="my-4 text-xl font-bold">`ISR` 随时间自动更新：</h3>
+            <ul className="list-inside list-disc">
+                <li>通过导出 `revalidate` 设定时间，自动刷新缓存</li>
+                <li>
+                    [
+                    <Link className="text-blue-400" href="/time/cache/isr">
+                        演示
+                    </Link>
+                    ] 说明：打开演示页面，刷新时间不变，每隔 10 秒刷新更新一次
                 </li>
             </ul>
             <div className="p-4">`dev` 环境下 `ssr` 每次都会刷新数据</div>
