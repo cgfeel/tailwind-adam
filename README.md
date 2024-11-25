@@ -116,6 +116,8 @@ export default async function Page() {
 
 目录：https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time
 
+以下总结建议启动项目直接查看演示：
+
 **layout.tsx：**
 
 -   布局下 `client component` 的 `hook` 状态将会被保存，不随导航切换清空
