@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function page() {
     return (
@@ -19,15 +20,15 @@ export default function page() {
                     </h1>
                     <p className="mt-2 text-gray-600 sm:mt-4 sm:text-xl">
                         Workcation helps you find work-friendly rentals in beautiful location so you enjoy some nice
-                        weather even you're not on vacation.
+                        weather even you&apos;re not on vacation.
                     </p>
                     <div className="mt-4 sm:mt-6">
-                        <a href="#" className="btn btn-indigo mb-4 mr-4 shadow-lg">
+                        <Link href="#" className="btn btn-indigo mb-4 mr-4 shadow-lg">
                             Book your escape
-                        </a>
-                        <a href="#" className="btn btn-gray">
+                        </Link>
+                        <Link href="/adam/settings" className="btn btn-gray">
                             Learn more
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

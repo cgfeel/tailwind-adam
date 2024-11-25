@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { FC, MouseEventHandler, PropsWithChildren, useCallback, useEffect, useRef } from "react";
 
-const Modal: FC<PropsWithChildren<{}>> = ({ children }) => {
+const Modal: FC<PropsWithChildren> = ({ children }) => {
     const overlay = useRef(null);
     const wrapper = useRef(null);
     const router = useRouter();
