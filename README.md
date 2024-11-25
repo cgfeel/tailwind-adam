@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 一个 `tailwind-css` 的练习
 
-## Getting Started
+来自油管 `adma`，不同的是通过 `NextJS` 来做练习，所以数据请求、组件封装、配置文件略微会不一样。
 
-First, run the development server:
+除此之外还记录 `NextJS` 的一些记录：
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### `default.tsx` 并行路由回退展示
+
+当设置平行路由的时候，如下：
+
+```
+├── @booking
+│   ├── default.tsx
+│   ├── layout.tsx
+│   └── page.tsx
+├── default.tsx
+├── index.css
+├── layout.tsx
+├── page.tsx
+└── settings
+    └── page.tsx
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`@booking` 就是平行路由中的一个插槽，在这样的目录下遵循以下原则：
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-   插槽在 `layout.tsx` 中可以和 `children` 一起作为 `props` 传入组件 [[查看](https://github.com/cgfeel/tailwind-adam/blob/main/src/app/adam/layout.tsx)]
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+在插槽路由下创建一个子路由：
 
-## Learn More
+-   若插槽目录没有 `default.tsx`，也没有同名的子路由，访问子路由将返回 `404`
+-   若插槽目录中存在 `default.tsx`，没有同名的路由子路由也能正常展示
 
-To learn more about Next.js, take a look at the following resources:
+插槽的展示根据导航切换方式来：
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+-   软导航：通过 `NextJS` 中的导航切换到当前路由下的子路由，插槽展示 `page.tsx` 不做改变
+-   硬导航：通过刷新页面、或首次访问，插槽展示 `default.tsx` 不做改变
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+官方提供了 4 个应用场景：
 
-## Deploy on Vercel
+1.  仪表盘：`Dashboard`
+2.  权限：比如普通用户和管理员分别展示不同的插槽
+3.  `Tab` 切换
+4.  导航拦截
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+但在拥有插槽的目录下创建子目录，会增加心智负担：
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+-   因为除了要关心 `children` 随路由的变更外，还需要考虑插槽的更新
+-   这样 `场景 3` 的情况下就要确认是否要用这种方式了，不是每个条件下的插槽目录都相同
+-   访问的 `url` 对应不上，因而展示 `default` 有可能并非预想
+
+除此之外在导航拦截时候 `default.tsx` 的作用是为了不输出：
+
+-   返回一个 `null`，以便硬导航的时候展示原本的页面
+-   详细见演示 [[查看](https://github.com/cgfeel/next.v2/tree/master/routing-file/src/app/photo)]
