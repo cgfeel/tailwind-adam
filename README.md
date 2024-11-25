@@ -122,4 +122,4 @@ export default async function Page() {
 
 **template.tsx：**
 
--   template.tsx：布局下的 `client component` 的 `hook` 状态随导航切换清空还原初始状态
+-   布局下的 `client component` 的 `hook` 状态随导航切换清空还原初始状态
