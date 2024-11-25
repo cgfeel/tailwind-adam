@@ -112,6 +112,10 @@ export default async function Page() {
 }
 ```
 
+**重回 `NextJS 13`**
+
+通过 `use cache`，不过这个方法目前处于 `canary`，需要在 `experimental` 开启 [[查看](https://nextjs.org/docs/canary/app/api-reference/directives/use-cache)]
+
 ### `template` 和 `layout`
 
 目录：https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time
