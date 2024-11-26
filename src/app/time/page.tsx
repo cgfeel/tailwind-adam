@@ -129,7 +129,7 @@ export default async function Page() {
             <h3 className="my-4 text-base font-bold">`ISR` 更新资源原理：</h3>
             <ul className="list-inside list-disc">
                 <li>`ISR` 会为缓存标记一个时间戳，当有新的请求时会将资源有效期和时间戳进行比对</li>
-                <li>未过期直接输出，过期删除缓存，发起 `RSC playload` 请求</li>
+                <li>未过期直接输出，过期删除缓存，发起 `RSC playload` 请求，拿到结果重新缓存后返回</li>
             </ul>
             <h3 className="my-4 text-xl font-bold">6. 布局：layout.tsx：</h3>
             <ul className="list-inside list-disc">
