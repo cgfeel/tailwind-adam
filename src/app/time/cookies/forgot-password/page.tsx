@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import TimeCom from "../_com/TimeCom";
+import TimeCom from "../../_com/TimeCom";
 
 export default async function Page() {
     const cookieStore = await cookies();
