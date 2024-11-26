@@ -190,3 +190,10 @@
 
 -   可以看到 `RSC` 中时间戳在走动，而 `fetch` 请求结果没有变化
 -   由此得出 `NextJS v15` 依旧缓存 `fetch` 结果
+
+但是：官方文档既然这么说，肯定也并非空穴来风，参考 `v15` 更新日志 [[查看](https://nextjs.org/blog/next-15#caching-semantics)]
+
+-   `Route Handlers` 中 `GET` 请求不再默认缓存
+-   客户端路由不再缓存 `page` 组件（参考上述总结）
+
+> 客户端是否缓存，以是否发起请求至服务端为准

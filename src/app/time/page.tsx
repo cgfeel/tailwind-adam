@@ -227,6 +227,18 @@ export default async function Page() {
                 <li>可以看到 `RSC` 中时间戳在走动，而 `fetch` 请求结果没有变化</li>
                 <li>由此得出 `NextJS v15` 依旧缓存 `fetch` 结果</li>
             </ul>
+            <h3 className="my-4 text-base font-bold">
+                但是：官方文档既然这么说，肯定也并非空穴来风，参考 `v15` 更新日志 [
+                <Link className="text-blue-400" href="https://nextjs.org/blog/next-15#caching-semantics">
+                    演示
+                </Link>
+                ]
+            </h3>
+            <ul className="list-inside list-disc">
+                <li>`Route Handlers` 中 `GET` 请求不再默认缓存</li>
+                <li>客户端路由不再缓存 `page` 组件（参考上述总结）</li>
+            </ul>
+            <div className="p-4">客户端是否缓存，以是否发起请求至服务端为准</div>
         </div>
     );
 }
