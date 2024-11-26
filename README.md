@@ -71,7 +71,7 @@
 -   无论如何访问子路由，一定要确保插槽父级目录下存在对应的子目录
 -   然后再考虑插槽内部采用哪种方式：层级相同的子目录、`default.tsx`、`[...cacheAll]`
 
-### 缓存细微的改变
+### `NextJS` 缓存细微的改变
 
 目录：https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time
 
