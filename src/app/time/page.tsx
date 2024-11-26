@@ -28,6 +28,10 @@ export default async function Page() {
                 <li>存在动态路由的页面，切换或刷新导航每次都会发送请求到服务端</li>
                 <li>打开浏览器调试窗口，每次切换导航即可看到重复发送的请求</li>
             </ul>
+            <div className="p-4">
+                划重点：`fetch` 不再默认缓存了，但 `NextJS` 组件数据传递，官方依旧推荐通过
+                `fetch`，那么这块是重复请求呢？还是手动缓存呢？这是不是又增加了心智负担。
+            </div>
             <h3 className="my-4 text-xl font-bold">2. `SSR` 下的动态方法：</h3>
             <ul className="list-inside list-disc">
                 <li>`RSC` 用到了 `cookies` 和 `headers` 等动态方法，不缓存，实时反回数据</li>
@@ -172,7 +176,7 @@ export default async function Page() {
                     作为子组件
                 </li>
                 <li>
-                    如果能够通过布局组合页面和组件的情况，优先考虑组合，而不使用引入，避免 `client component` 包裹
+                    如果能够通过布局组合页面和组件的情况，优先考虑组合，而不使用引入，避免 `client component` 引入
                     `server component`
                 </li>
             </ul>
