@@ -89,7 +89,7 @@ export default async function Page() {
             </h3>
             <ul className="list-inside list-disc">
                 <li>静态路由下的 `SSR` 可以定期或手动刷新缓存</li>
-                <li>当只存在 `generateStaticParams` 预构生成的静态的资源，才能导出将整个项目导出为静态 `html`</li>
+                <li>当只存在 `generateStaticParams` 预构生成的静态的资源，才能将整个项目导出为静态 `html`</li>
             </ul>
             <h3 className="my-4 text-xl font-bold">5. `ISR` 随时间自动更新：</h3>
             <ul className="list-inside list-disc">
