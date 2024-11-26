@@ -183,8 +183,8 @@
 于是做了这么一个测试：
 
 -   `layout` 和 `page` 分别 `fetch` 当前时间，但 `page` 在发起请求前需要等待 3 秒
--   [[演示]()] 说明：先来一个静态目录，看看构建时是否缓存 `fetch`
--   [演示] 说明：再来一个动态目录，看看每次请求的缓存 `fetch`
+-   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/await)] 说明：先来一个静态目录，看看构建时是否缓存 `fetch`
+-   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/await/%5Bslug%5D)] 说明：再来一个动态目录，看看每次请求的缓存 `fetch`
 
 结果：
 
