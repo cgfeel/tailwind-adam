@@ -150,7 +150,7 @@
 -   布局下 `client component` 的 `hooks` 状态将会被保存，不随导航切换清空，支持插槽
 -   [[演示](<https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/(auth)/layout>)] 说明：输入框中随意写点啥，切换演示中的导航，内容不会清空
 
-#### 7. 布局：template.tsx：
+#### 7. 布局：template.tsx
 
 -   布局下的 `client component` 的 `hooks` 状态随导航切换清空还原初始状态，不支持插槽
 -   [[演示](<https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/(auth)/template>)] 说明：输入框中随意写点啥，切换演示中的导航，内容被清空
