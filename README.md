@@ -77,75 +77,98 @@
 
 以下总结建议启动项目直接查看演示：
 
-**`SSR` 下的动态路由：**
+#### 1. `SSR` 下的动态路由：
 
 -   动态路由以 `[]` 包裹，不缓存，实时反回数据
+-   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/no-cache/%5Bslug%5D)] 说明：打开演示页面，切换导航查看 `fetch` 请求时间的变化
+-   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/cookies/dynamic/%5Bslug%5D)] 说明：打开演示页面，切换导航查看时间戳变化
 
-> 动态路由可以通过 `generateStaticParams` 将 `SSR` 作为 `SSG`，前提是不能存在动态方法。
+**原理：**
 
-**`SSR` 下的动态方法：**
+-   存在动态路由的页面，切换或刷新导航每次都会发送请求到服务端
+-   打开浏览器调试窗口，每次切换导航即可看到重复发送的请求
+-   动态路由可以通过 `generateStaticParams` 将 `SSR` 作为 `SSG`，前提是不能存在动态方法。
+
+#### 2. `SSR` 下的动态方法：
 
 -   `RSC` 用到了 `cookies` 和 `headers` 等动态方法，不缓存，实时反回数据
+-   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/cookies)] 说明：打开演示页面，切换导航查看 `fetch` 请求时间的变化
+-   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/cookies/method)] 说明：打开演示页面，切换导航查看时间戳变化
 
-> 在 `NextJS 15` 之前默认缓存 `fetch` 结果，导致 `SSR` 虽然动态获取数据，但是由于 `fetch` 缓存拿到的结果没有变化
+**原理：**
 
-**`SSR` 下的没有动态路由也没有动态方法等同于 `SSG`：**
+-   存在动态方法的页面，切换或刷新导航每次都会发送请求到服务端
+-   打开浏览器调试窗口，每次切换导航即可看到重复发送的请求
+-   `dev` 环境下 `ssr` 每次都会刷新数据
+
+#### 3. `SSR` 下的没有动态路由也没有动态方法等同于 `SSG`：
 
 -   路由下的 `fetch` 将在构建时缓存数据，除非定时或手动更新
+-   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/cache)] 说明：切换或刷新演示中的导航，无法更新缓存中的时间，除非点 `refresh` 手动刷新
 
-**手动刷新已缓存的静态 `SSR`：**
+**原理：**
 
--   非动态路由、也不包含动态方法，通过 `revalidatePath` 手动刷新已缓存的`SSR`
+-   没有动态路由，没有动态方法的 `SSR` 等同 `SSG`，缓存分别存储在 `server` 和 `client`
+-   发起 `server action` 通过 `revalidatePath` 刷新服务端缓存，`useRouter` 刷新本地缓存
 
-**`ISR` 随时间自动更新：**
+#### 4. 通过 `generateStaticParams` 将动态路由的作为 `SSG`：
+
+-   路由下的 `fetch` 将在构建时缓存数据，除非定时或手动更新
+-   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/cache/ssg/%5Bslug%5D)] 说明：生成的缓存为静态资源，不接受任何刷新
+
+**原理：**
+
+-   `SSG` 在构建时生成静态资源作为缓存，不能包含动态方法，也不接受手动或自动更新
+-   请勿通过 `revalidatePath` 手动刷新 `SSG`，只会让服务端清空缓存资源，无法恢复
+
+**静态路由下的 `SSR` 和动态路由范围下的 `SSG`，在行为表现上是一致的，区别有 2 个：**
+
+-   静态路由下的 `SSR` 可以定期或手动刷新缓存
+-   只有 `generateStaticParams` 才能预构生成静态资源，托管到 `CDN`
+
+#### 5. `ISR` 随时间自动更新：
 
 -   通过导出 `revalidate` 设定时间，自动刷新缓存
+-   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/isr)] 说明：静态路由，每隔 10 秒刷新获取新数据，切换导航不发送请求，除非通过 `useRouter` 刷新本地缓存
+-   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/isr/dynamic/%5Bslug%5D)] 说明：动态路由，行为和 `SSR` 一致，实时获取数据，`revalidate` 在这里无效
+-   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/isr/method)] 说明：动态方法，行为和 `SSR` 一致，实时获取数据，`revalidate` 在这里无效
 
-> `dev` 环境下 `ssr` 每次都会刷新数据
+**原理：**
 
-由于 `NextJS v15` 更新了 `fetch` 缓存机制，那么 `revalidateTag` 还有必要存在吗？
+-   `ISR` 完全按照 `SSR` 标准来，唯一的不同在于定时更新服务端缓存
+-   因此动态方法、动态路由参考 `SSR`
+-   而静态路由需要刷新后才能更新数据，是因为存在 `client cache`，需要通过 `useRouter` 来刷新缓存
+-   静态路由的 `SSR` 则要 `useRouter` 刷新本地缓存前，还需要通过 `revalidatePath` 刷新服务端缓存
 
--   有必要，虽然 `fetch` 不再默认缓存，但是可以手动记录缓存
+**`ISR` 更新资源原理：**
 
-```tsx
-import { unstable_cache } from "next/cache";
-import { db, posts } from "@/lib/db";
+-   `ISR` 会为缓存标记一个时间戳，当有新的请求时会将资源有效期和时间戳进行比对
+-   未过期直接输出，过期删除缓存，发起 `RSC playload` 请求
 
-const getPosts = unstable_cache(
-    async () => {
-        return await db.select().from(posts);
-    },
-    ["posts"],
-    { revalidate: 3600, tags: ["posts"] }
-);
+#### 6. 布局：layout.tsx：
 
-export default async function Page() {
-    const allPosts = await getPosts();
+-   布局下 `client component` 的 `hooks` 状态将会被保存，不随导航切换清空，支持插槽
+-   [[演示](<https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/(auth)/layout>)] 说明：输入框中随意写点啥，切换演示中的导航，内容不会清空
 
-    return (
-        <ul>
-            {allPosts.map((post) => (
-                <li key={post.id}>{post.title}</li>
-            ))}
-        </ul>
-    );
-}
-```
+#### 7. 布局：template.tsx：
 
-**重回 `NextJS 13`**
+-   布局下的 `client component` 的 `hooks` 状态随导航切换清空还原初始状态，不支持插槽
+-   [[演示](<https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/(auth)/template>)] 说明：输入框中随意写点啥，切换演示中的导航，内容被清空
 
-通过 `use cache`，不过这个方法目前处于 `canary`，需要在 `experimental` 开启 [[查看](https://nextjs.org/docs/canary/app/api-reference/directives/use-cache)]
+#### 8. 页面：page.tsx：
 
-### `template` 和 `layout`
+-   和 `template` 一样 `hooks` 状态不被保留
+-   [[演示](<https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/(auth)/page>)] 说明：输入框中随意写点啥，切换演示中的导航，内容被清空
 
-目录：https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time
+#### 结论：
 
-以下总结建议启动项目直接查看演示：
+-   只有 `layout.tsx` 能够保留 `hooks` 状态
+-   `template.tsx` 也是布局，但不能保留 `hooks` 状态，也不支持插槽，但可以包裹当前目录中所有 `page.tsx`
+-   `page.tsx` 是页面中的叶子节点，但借助布局也可以将 `component` 通过 `children` 或其他 `props` 作为子组件
+-   如果能够通过布局组合页面和组件的情况，优先考虑组合，而不使用引入，避免 `client component` 包裹 `server component`
 
-**layout.tsx：**
+**布局缓存和数据缓存的区别：**
 
--   布局下 `client component` 的 `hook` 状态将会被保存，不随导航切换清空
-
-**template.tsx：**
-
--   布局下的 `client component` 的 `hook` 状态随导航切换清空还原初始状态
+-   布局缓存仅用于本地 `hooks`，数据缓存用于本地端和服务端数据缓存
+-   布局无法刷新本地、以及服务端的数据缓存
+-   数据缓存也无法保存本地 `hooks` 状态

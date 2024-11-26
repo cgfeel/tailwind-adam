@@ -113,7 +113,7 @@ export default async function Page() {
                 </li>
                 <li>
                     [
-                    <Link className="text-blue-400" href="/time/isr/dynamic/register">
+                    <Link className="text-blue-400" href="/time/isr/method/register">
                         演示
                     </Link>
                     ] 说明：动态方法，行为和 `SSR` 一致，实时获取数据，`revalidate` 在这里无效
