@@ -28,10 +28,6 @@ export default async function Page() {
                 <li>存在动态路由的页面，切换或刷新导航每次都会发送请求到服务端</li>
                 <li>打开浏览器调试窗口，每次切换导航即可看到重复发送的请求</li>
             </ul>
-            <div className="p-4">
-                划重点：`fetch` 不再默认缓存了，但 `NextJS` 组件数据传递，官方依旧推荐通过
-                `fetch`，那么这块是重复请求呢？还是手动缓存呢？这是不是又增加了心智负担。
-            </div>
             <h3 className="my-4 text-xl font-bold">2. `SSR` 下的动态方法：</h3>
             <ul className="list-inside list-disc">
                 <li>`RSC` 用到了 `cookies` 和 `headers` 等动态方法，不缓存，实时反回数据</li>
@@ -132,7 +128,7 @@ export default async function Page() {
                 <li>`ISR` 会为缓存标记一个时间戳，当有新的请求时会将资源有效期和时间戳进行比对</li>
                 <li>未过期直接输出，过期删除缓存，发起 `RSC playload` 请求，拿到结果重新缓存后返回</li>
             </ul>
-            <h3 className="my-4 text-xl font-bold">6. 布局：layout.tsx</h3>
+            <h3 className="my-4 text-xl font-bold">6. 布局：`layout.tsx`</h3>
             <ul className="list-inside list-disc">
                 <li>布局下 `client component` 的 `hooks` 状态将会被保存，不随导航切换清空，支持插槽</li>
                 <li>
@@ -143,7 +139,7 @@ export default async function Page() {
                     ] 说明：输入框中随意写点啥，切换演示中的导航，内容不会清空
                 </li>
             </ul>
-            <h3 className="my-4 text-xl font-bold">7. 布局：template.tsx</h3>
+            <h3 className="my-4 text-xl font-bold">7. 布局：`template.tsx`</h3>
             <ul className="list-inside list-disc">
                 <li>布局下的 `client component` 的 `hooks` 状态随导航切换清空还原初始状态，不支持插槽</li>
                 <li>
@@ -154,7 +150,7 @@ export default async function Page() {
                     ] 说明：输入框中随意写点啥，切换演示中的导航，内容被清空
                 </li>
             </ul>
-            <h3 className="my-4 text-xl font-bold">8. 页面：page.tsx</h3>
+            <h3 className="my-4 text-xl font-bold">8. 页面：`page.tsx`</h3>
             <ul className="list-inside list-disc">
                 <li>和 `template` 一样 `hooks` 状态不被保留</li>
                 <li>
@@ -185,6 +181,51 @@ export default async function Page() {
                 <li>布局缓存仅用于本地 `hooks`，数据缓存用于本地端和服务端数据缓存</li>
                 <li>布局无法刷新本地、以及服务端的数据缓存</li>
                 <li>数据缓存也无法保存本地 `hooks` 状态</li>
+            </ul>
+            <h3 className="my-4 text-xl font-bold">9. `fetch` 的缓存</h3>
+            <ul className="list-inside list-disc">
+                <li>先来看两段来自同一个版本下，官方文档内容：</li>
+                <li>
+                    [
+                    <Link
+                        className="text-blue-400"
+                        href="https://nextjs.org/docs/app/building-your-application/caching#fetch">
+                        查看
+                    </Link>
+                    ] Data returned from fetch is automatically cached in the Data Cache.
+                </li>
+                <li>
+                    [
+                    <Link
+                        className="text-blue-400"
+                        href="https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#fetching-data-on-the-server-with-the-fetch-api">
+                        查看
+                    </Link>
+                    ] The response from fetch is not cached by default.
+                </li>
+            </ul>
+            <h3 className="my-4 text-base font-bold">于是做了这么一个测试：</h3>
+            <ul className="list-inside list-disc">
+                <li>`layout` 和 `page` 分别 `fetch` 当前时间，但 `page` 在发起请求前需要等待 3 秒</li>
+                <li>
+                    [
+                    <Link className="text-blue-400" href="/time/await">
+                        演示
+                    </Link>
+                    ] 说明：静态目录，先看看构建时是否缓存 `fetch`
+                </li>
+                <li>
+                    [
+                    <Link className="text-blue-400" href="/time/await/now">
+                        演示
+                    </Link>
+                    ] 说明：动态目录，再看看每次请求是否缓存 `fetch`
+                </li>
+            </ul>
+            <h3 className="my-4 text-base font-bold">结果：</h3>
+            <ul className="list-inside list-disc">
+                <li>可以看到 `RSC` 中时间戳在走动，而 `fetch` 请求结果没有变化</li>
+                <li>由此得出 `NextJS v15` 依旧缓存 `fetch` 结果</li>
             </ul>
         </div>
     );

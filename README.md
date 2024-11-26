@@ -88,8 +88,6 @@
 -   存在动态路由的页面，切换或刷新导航每次都会发送请求到服务端
 -   打开浏览器调试窗口，每次切换导航即可看到重复发送的请求
 
-> 划重点：`fetch` 不再默认缓存了，但 `NextJS` 组件数据传递，官方依旧推荐通过 `fetch`，那么这块是重复请求呢？还是手动缓存呢？这是不是又增加了心智负担。
-
 #### 2. `SSR` 下的动态方法：
 
 -   `RSC` 用到了 `cookies` 和 `headers` 等动态方法，不缓存，实时反回数据
@@ -174,3 +172,21 @@
 -   布局缓存仅用于本地 `hooks`，数据缓存用于本地端和服务端数据缓存
 -   布局无法刷新本地、以及服务端的数据缓存
 -   数据缓存也无法保存本地 `hooks` 状态
+
+#### 9. `fetch` 的缓存
+
+先来看两段来自同一个版本下，官方文档内容：
+
+-   [[查看](https://nextjs.org/docs/app/building-your-application/caching#fetch)] Data returned from fetch is automatically cached in the Data Cache.
+-   [[查看](https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#fetching-data-on-the-server-with-the-fetch-api)] The response from fetch is not cached by default.
+
+于是做了这么一个测试：
+
+-   `layout` 和 `page` 分别 `fetch` 当前时间，但 `page` 在发起请求前需要等待 3 秒
+-   [[演示]()] 说明：先来一个静态目录，看看构建时是否缓存 `fetch`
+-   [演示] 说明：再来一个动态目录，看看每次请求的缓存 `fetch`
+
+结果：
+
+-   可以看到 `RSC` 中时间戳在走动，而 `fetch` 请求结果没有变化
+-   由此得出 `NextJS v15` 依旧缓存 `fetch` 结果
