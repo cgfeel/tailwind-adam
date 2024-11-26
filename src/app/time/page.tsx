@@ -87,6 +87,12 @@ export default async function Page() {
                 <li>`SSG` 在构建时生成静态资源作为缓存，不能包含动态方法，也不接受手动或自动更新</li>
                 <li>请勿通过 `revalidatePath` 手动刷新 `SSG`，只会让服务端清空缓存资源，无法恢复</li>
             </ul>
+            <h3 className="my-4 text-base font-bold">
+                静态路由下的 `SSR` 和动态路由范围下的 `SSG`，在行为表现上是一致的，区别只有：
+            </h3>
+            <ul className="list-inside list-disc">
+                <li>静态路由下的 `SSR` 可以定期或手动刷新缓存</li>
+            </ul>
             <h3 className="my-4 text-xl font-bold">5. `ISR` 随时间自动更新：</h3>
             <ul className="list-inside list-disc">
                 <li>通过导出 `revalidate` 设定时间，自动刷新缓存</li>
