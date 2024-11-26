@@ -28,9 +28,6 @@ export default async function Page() {
                 <li>存在动态路由的页面，切换或刷新导航每次都会发送请求到服务端</li>
                 <li>打开浏览器调试窗口，每次切换导航即可看到重复发送的请求</li>
             </ul>
-            <div className="p-4">
-                动态路由可以通过 `generateStaticParams` 将 `SSR` 作为 `SSG`，前提是不能存在动态方法。
-            </div>
             <h3 className="my-4 text-xl font-bold">2. `SSR` 下的动态方法：</h3>
             <ul className="list-inside list-disc">
                 <li>`RSC` 用到了 `cookies` 和 `headers` 等动态方法，不缓存，实时反回数据</li>
