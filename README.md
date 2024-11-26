@@ -126,7 +126,7 @@
 -   静态路由下的 `SSR` 可以定期或手动刷新缓存
 -   当只存在 `generateStaticParams` 预构生成的静态的资源，才能导出将整个项目导出为静态 `html`
 
-#### 5. `ISR` 随时间自动更新：
+#### 5. `ISR` 随时间自动更新
 
 -   通过导出 `revalidate` 设定时间，自动刷新缓存
 -   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/isr)] 说明：静态路由，每隔 10 秒刷新获取新数据，切换导航不发送请求，除非通过 `useRouter` 刷新本地缓存
@@ -145,7 +145,7 @@
 -   `ISR` 会为缓存标记一个时间戳，当有新的请求时会将资源有效期和时间戳进行比对
 -   未过期直接输出，过期删除缓存，发起 `RSC playload` 请求，拿到结果重新缓存后返回
 
-#### 6. 布局：layout.tsx：
+#### 6. 布局：layout.tsx
 
 -   布局下 `client component` 的 `hooks` 状态将会被保存，不随导航切换清空，支持插槽
 -   [[演示](<https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/(auth)/layout>)] 说明：输入框中随意写点啥，切换演示中的导航，内容不会清空
@@ -155,7 +155,7 @@
 -   布局下的 `client component` 的 `hooks` 状态随导航切换清空还原初始状态，不支持插槽
 -   [[演示](<https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/(auth)/template>)] 说明：输入框中随意写点啥，切换演示中的导航，内容被清空
 
-#### 8. 页面：page.tsx：
+#### 8. 页面：page.tsx
 
 -   和 `template` 一样 `hooks` 状态不被保留
 -   [[演示](<https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/(auth)/page>)] 说明：输入框中随意写点啥，切换演示中的导航，内容被清空

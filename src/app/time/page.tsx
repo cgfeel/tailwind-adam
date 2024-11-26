@@ -128,7 +128,7 @@ export default async function Page() {
                 <li>`ISR` 会为缓存标记一个时间戳，当有新的请求时会将资源有效期和时间戳进行比对</li>
                 <li>未过期直接输出，过期删除缓存，发起 `RSC playload` 请求，拿到结果重新缓存后返回</li>
             </ul>
-            <h3 className="my-4 text-xl font-bold">6. 布局：layout.tsx：</h3>
+            <h3 className="my-4 text-xl font-bold">6. 布局：layout.tsx</h3>
             <ul className="list-inside list-disc">
                 <li>布局下 `client component` 的 `hooks` 状态将会被保存，不随导航切换清空，支持插槽</li>
                 <li>
@@ -139,7 +139,7 @@ export default async function Page() {
                     ] 说明：输入框中随意写点啥，切换演示中的导航，内容不会清空
                 </li>
             </ul>
-            <h3 className="my-4 text-xl font-bold">7. 布局：template.tsx：</h3>
+            <h3 className="my-4 text-xl font-bold">7. 布局：template.tsx</h3>
             <ul className="list-inside list-disc">
                 <li>布局下的 `client component` 的 `hooks` 状态随导航切换清空还原初始状态，不支持插槽</li>
                 <li>
@@ -150,7 +150,7 @@ export default async function Page() {
                     ] 说明：输入框中随意写点啥，切换演示中的导航，内容被清空
                 </li>
             </ul>
-            <h3 className="my-4 text-xl font-bold">8. 页面：page.tsx：</h3>
+            <h3 className="my-4 text-xl font-bold">8. 页面：page.tsx</h3>
             <ul className="list-inside list-disc">
                 <li>和 `template` 一样 `hooks` 状态不被保留</li>
                 <li>
