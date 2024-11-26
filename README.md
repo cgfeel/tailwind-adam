@@ -113,7 +113,7 @@
 
 #### 4. 通过 `generateStaticParams` 将动态路由的作为 `SSG`：
 
--   路由下的 `fetch` 将在构建时缓存数据，除非定时或手动更新
+-   路由下的 `fetch` 将在构建时缓存数据，一旦构建不能更新资源
 -   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/cache/ssg/%5Bslug%5D)] 说明：生成的缓存为静态资源，不接受任何刷新
 
 **原理：**

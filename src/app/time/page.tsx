@@ -70,7 +70,7 @@ export default async function Page() {
             </ul>
             <h3 className="my-4 text-xl font-bold">4. 通过 `generateStaticParams` 将动态路由的作为 `SSG`：</h3>
             <ul className="list-inside list-disc">
-                <li>路由下的 `fetch` 将在构建时缓存数据，除非定时或手动更新</li>
+                <li>路由下的 `fetch` 将在构建时缓存数据，一旦构建不能更新资源</li>
                 <li>
                     [
                     <Link className="text-blue-400" href="/time/cache/ssg/register">
