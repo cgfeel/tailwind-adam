@@ -142,23 +142,20 @@
 
 **`ISR` 更新资源原理：**
 
--   `ISR` 会为缓存标记一个时间戳，当有新的请求时会将资源有效期和时间戳进行比对
--   未过期直接输出，过期删除缓存，发起 `RSC playload` 请求，拿到结果重新缓存后返回
+> 先看一段原话 [[How Time-based Revalidation Works](https://nextjs.org/docs/app/building-your-application/caching#time-based-revalidation)]
 
-#### 6. 布局：layout.tsx
+**也就是说：**
 
--   布局下 `client component` 的 `hooks` 状态将会被保存，不随导航切换清空，支持插槽
--   [[演示](<https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/(auth)/layout>)] 说明：输入框中随意写点啥，切换演示中的导航，内容不会清空
+-   `ISR` 会为在第一次请求时标记一个时间戳，拿到请求后记录并缓存，例如：60 秒
+-   60 秒内的请求将直接从缓存中返回数据，60 秒后发起的第一个请求仍旧返回已过期的缓存
+-   然后 `NextJS` 将从后台发起数据重新校验，一旦成功获取数据将更新数据内存，否则保持不变
 
-#### 7. 布局：template.tsx
+#### 6. 布局：`layout.tsx`、`template`、`page.tsx`
 
--   布局下的 `client component` 的 `hooks` 状态随导航切换清空还原初始状态，不支持插槽
--   [[演示](<https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/(auth)/template>)] 说明：输入框中随意写点啥，切换演示中的导航，内容被清空
-
-#### 8. 页面：page.tsx
-
--   和 `template` 一样 `hooks` 状态不被保留
--   [[演示](<https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/(auth)/page>)] 说明：输入框中随意写点啥，切换演示中的导航，内容被清空
+-   演示说明：输入框中随意写点啥，切换演示中的导航，看输入框内容是否被清空
+-   [[layout](<https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/(auth)/layout>)] `client component` 的 `hooks` 状态将会被保存，不随导航切换清空，支持插槽
+-   [[template](<https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/(auth)/template>)] `client component` 的 `hooks` 状态随导航切换清空还原初始状态，不支持插槽
+-   [[page](<https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/(auth)/page>)] 和 `template` 一样 `hooks` 状态不被保留
 
 #### 结论：
 
@@ -173,7 +170,7 @@
 -   布局无法刷新本地、以及服务端的数据缓存
 -   数据缓存也无法保存本地 `hooks` 状态
 
-#### 9. `fetch` 的缓存
+#### 7. `fetch` 的缓存
 
 先来看两段来自同一个版本下，官方文档内容：
 
