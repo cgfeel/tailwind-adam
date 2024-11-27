@@ -196,7 +196,7 @@
 -   从 `fetch` 请求的数据将自动缓存到 `Data cache`（`NextJS v15` 之前，目前默认不再缓存）
 -   来自 `fetch` 的响应结果不再默认缓存（到 `data cache`，文档遗漏）
 
-> 这 2 句话没有提到的是：`fetch` 的响应结果除了 `Data cache` 之外，一定会缓存到 `Request Memoization`
+> 没有提到的是：符合要求的 `fetch` 除了 `Data cache` 之外，一定会缓存到 `Request Memoization`
 
 `NextJS` 的缓存分为 4 种：
 
