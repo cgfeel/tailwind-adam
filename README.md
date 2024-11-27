@@ -226,7 +226,7 @@
 
 -   范围包括：`SSR` 静态路由、`ISR` 静态路由、`SSG` 动态路由段
 -   验证方式：输出一个时间戳 `Date.now()`，刷新页面看数据变化
--   重新验证：`revalidatePath`（仅限 `SSR`、`ISR`）
+-   重新验证：文件段 `revalidate` 或 `revalidatePath` 方法（仅限 `SSR`、`ISR`）
 
 > 缓存的范围和 `Router Cache` 一致，不同在于缓存的位置
 
