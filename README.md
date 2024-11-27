@@ -225,9 +225,8 @@
 | `HTML` 和 `RSC Payload` | 服务端-存储资源 | 减少渲染成本改善性能 | 持久化 |
 
 -   范围包括：`SSR` 静态路由、`ISR` 静态路由、`SSG` 动态路由段
--   重现验证：仅限 `SSR`、`ISR`
 -   验证方式：输出一个时间戳 `Date.now()`，刷新页面看数据变化
--   重新验证：`revalidatePath`;
+-   重新验证：`revalidatePath`（仅限 `SSR`、`ISR`）
 
 > 缓存的范围和 `Router Cache` 一致，不同在于缓存的位置
 
