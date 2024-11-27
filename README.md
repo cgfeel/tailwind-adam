@@ -150,6 +150,8 @@
 -   60 秒内的请求将直接从缓存中返回数据，60 秒后发起的第一个请求仍旧返回已过期的缓存
 -   然后 `NextJS` 将从后台发起数据重新校验，一旦成功获取数据将更新数据内存，否则保持不变
 
+> 对于这个行为，官方给出了一个来自 `google` 的经典案例：`Google` 如何利用“在重新验证时过时”功能提升广告效果 [[查看](https://web.dev/case-studies/ads-case-study-stale-while-revalidate?hl=zh-cn)]
+
 #### 6. 布局：`layout.tsx`、`template`、`page.tsx`
 
 -   演示说明：输入框中随意写点啥，切换演示中的导航，看输入框内容是否被清空
