@@ -185,21 +185,90 @@
 -   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/await)] 说明：静态目录，先看看构建时是否缓存 `fetch`
 -   [[演示](https://github.com/cgfeel/tailwind-adam/tree/main/src/app/time/await/%5Bslug%5D)] 说明：动态目录，再看看每次请求是否缓存 `fetch`
 
-结果：
+> 结果：可以看到 `RSC` 中时间戳在走动，而 `fetch` 请求结果没有变化
 
--   可以看到 `RSC` 中时间戳在走动，而 `fetch` 请求结果没有变化
+那么这两段话冲突吗？不冲突：
 
-那么这两段话冲突吗？
-
--   不冲突，注意注意第一段话最后一个单词：`Data cache`
--   这是 `NextJS` 的一种缓存模式，不是通常说的数据缓存
+-   注意第一段话最后一个单词：`Data cache`，这是 `NextJS` 的一种缓存模式，不是通常说的数据缓存
 
 然后再来理解这两句话：
 
--   从 `fetch` 请求的数据将自动缓存到 `Data cache`（`NextJS v15` 之前，文档没有更新）
+-   从 `fetch` 请求的数据将自动缓存到 `Data cache`（`NextJS v15` 之前，目前默认不再缓存）
 -   来自 `fetch` 的响应结果不再默认缓存（到 `data cache`，文档遗漏）
+
+> 这 2 句话没有提到的是：`fetch` 的响应结果除了 `Data cache` 之外，一定会缓存到 `Request Memoization`
 
 `NextJS` 的缓存分为 4 种：
 
 ![image](https://github.com/user-attachments/assets/edd664c7-69b9-4b61-97a6-82480d773e84)
 
+官方文档延用了 `NextJS v13`，很多信息已不在适用 `NextJS v15`，这里我根据实际情况做总结：
+
+**`Router Cache`**
+
+| 缓存数据      | 位置          | 目的                 | 有效期                       |
+| ------------- | ------------- | -------------------- | ---------------------------- |
+| `RSC Payload` | 客户端-浏览器 | 导航时减少服务端请求 | 用户会话（浏览器）或基于时间 |
+
+-   范围包括：`SSR` 静态路由、`ISR` 静态路由、`SSG` 动态路由段
+-   验证方式：打开浏览器调试窗口，查看是否有发出网络请求
+
+相关资料见：官方更新记录 [[查看](https://nextjs.org/blog/next-15#client-router-cache-no-longer-caches-page-components-by-default)]
+
+-   改动不大，在体验上几乎感觉不到差异
+
+**`Full Router Cache`**
+
+| 缓存数据                | 位置            | 目的                 | 有效期 |
+| ----------------------- | --------------- | -------------------- | ------ |
+| `HTML` 和 `RSC Payload` | 服务端-存储资源 | 减少渲染成本改善性能 | 持久化 |
+
+-   范围包括：`SSR` 静态路由、`ISR` 静态路由、`SSG` 动态路由段
+-   重现验证：仅限 `SSR`、`ISR`
+-   验证方式：输出一个时间戳 `Date.now()`，刷新页面看数据变化
+
+> 缓存的范围和 `Router Cache` 一致，不同在于缓存的位置
+
+**`Request Memoization`**
+
+| 缓存数据             | 位置        | 目的                     | 有效期       |
+| -------------------- | ----------- | ------------------------ | ------------ |
+| `fetch` 函数返回的值 | 服务端-内存 | `React` 组件之间数据共享 | 内次请求周期 |
+
+所有模式都可用，但仅限：
+
+-   `GET` 请求
+-   `generateMetadata`、`generateStaticParams`，以及服务端组件中
+-   不支持 `Router Handle`、`client component` 这样非服务端组件中使用
+
+默认提供，不接受取消
+
+-   也就是说只要符合条件的 `fetch` 无论是构建时，还是重新验证、还是实时输出，都会采用这个机制
+-   缓存仅存活在每次请求周期，结束请求后立即销毁
+
+> 演示将上述 `fetch` 演示
+
+**`Data Cache` - `NextJS v15` 默认不再缓**
+
+| 缓存数据                        | 位置            | 目的                     | 有效期 |
+| ------------------------------- | --------------- | ------------------------ | ------ |
+| 来自 `fetch` 或 `DB` 的请求结果 | 服务端-存储数据 | 跨用户请求和部署存储数据 | 持久化 |
+
+-   `NextJS v15` 以前：`fetch` 之后默认缓存
+-   `NextJS v15` 之后：`fetch` 之后默认不缓存
+
+`Data Cache` 适用于所有模式，`NextJS v15` 需要手动设置：
+
+| 分类     | 缓存方式                   | 重新验证        | 建议              |
+| -------- | -------------------------- | --------------- | ----------------- |
+| `fetch`  | `{ cache: 'force-cache' }` | `revalidateTag` | 保留看法          |
+| `db`     | `unstable_cache`           | `revalidateTag` | 不推荐            |
+| `result` | `cache`                    | 不支持          | 会增加心智负担    |
+| `data`   | `use cache`                | `revalidateTag` | 目前仅限 `canary` |
+
+-   `fetch` 中的 `next` 属性目前是可以使用，但官方文档已删除相关介绍
+-   `unstable_cache` 目前官方推荐使用 `use cache`
+-   `use cache` 可以缓存组件、已经请求的响应，但仅限 `canary`
+-   `cache` 要实现重新验证，可能需要自行增加逻辑判断，不适应所有场景
+
+> 因此是否要手动使用 `Data Cache` 需要根据情况考虑
