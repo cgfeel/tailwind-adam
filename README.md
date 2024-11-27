@@ -212,6 +212,7 @@
 
 -   范围包括：`SSR` 静态路由、`ISR` 静态路由、`SSG` 动态路由段
 -   验证方式：打开浏览器调试窗口，查看是否有发出网络请求
+-   重新验证：`useRouter().refresh()`;
 
 相关资料见：官方更新记录 [[查看](https://nextjs.org/blog/next-15#client-router-cache-no-longer-caches-page-components-by-default)]
 
@@ -226,6 +227,7 @@
 -   范围包括：`SSR` 静态路由、`ISR` 静态路由、`SSG` 动态路由段
 -   重现验证：仅限 `SSR`、`ISR`
 -   验证方式：输出一个时间戳 `Date.now()`，刷新页面看数据变化
+-   重新验证：`revalidatePath`;
 
 > 缓存的范围和 `Router Cache` 一致，不同在于缓存的位置
 
@@ -241,7 +243,7 @@
 -   `generateMetadata`、`generateStaticParams`，以及服务端组件中
 -   不支持 `Router Handle`、`client component` 这样非服务端组件中使用
 
-默认提供，不接受取消
+默认提供，不支持重新验证
 
 -   也就是说只要符合条件的 `fetch` 无论是构建时，还是重新验证、还是实时输出，都会采用这个机制
 -   缓存仅存活在每次请求周期，结束请求后立即销毁
@@ -271,4 +273,6 @@
 -   `use cache` 可以缓存组件、已经请求的响应，但仅限 `canary`
 -   `cache` 要实现重新验证，可能需要自行增加逻辑判断，不适应所有场景
 
-> 因此是否要手动使用 `Data Cache` 需要根据情况考虑
+> 以上方法重新验证，以是否支持 `tags` 标签为准
+
+因此是否要手动使用 `Data Cache` 需要根据情况自行考虑，`NextJS v15` 默认不做缓存
