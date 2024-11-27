@@ -200,3 +200,6 @@
 -   来自 `fetch` 的响应结果不再默认缓存（到 `data cache`，文档遗漏）
 
 `NextJS` 的缓存分为 4 种：
+
+![image](https://github.com/user-attachments/assets/edd664c7-69b9-4b61-97a6-82480d773e84)
+
